@@ -70,6 +70,15 @@ const counterIO = new IntersectionObserver(
 );
 document.querySelectorAll(".counter").forEach((c) => counterIO.observe(c));
 
+// ----- Scroll to top -----
+const toTop = document.getElementById("toTop");
+if (toTop) {
+  const toggleToTop = () => toTop.classList.toggle("show", window.scrollY > 400);
+  window.addEventListener("scroll", toggleToTop, { passive: true });
+  toggleToTop();
+  toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+}
+
 // ----- Contact form (demo handler) -----
 function submitForm(e) {
   e.preventDefault();

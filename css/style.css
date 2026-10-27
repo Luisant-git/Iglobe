@@ -92,7 +92,7 @@ h1, h2, h3, h4, h5, h6 { color: var(--ink); font-weight: 700; line-height: 1.25;
 }
 .header.scrolled { box-shadow: 0 10px 30px rgba(0,0,0,.08); }
 .header-inner { display: flex; align-items: center; gap: 28px; height: 86px; }
-.brand img { height: 56px; width: auto; }
+.brand img { height: 70px; width: auto; }
 
 .nav { display: flex; align-items: center; gap: 34px; margin: 0 auto; }
 .nav-link { font-weight: 500; font-size: 16px; color: var(--ink); position: relative; padding: 8px 0; transition: .3s; }
@@ -381,7 +381,7 @@ h1, h2, h3, h4, h5, h6 { color: var(--ink); font-weight: 700; line-height: 1.25;
 }
 .footer h4 { color: #fff; font-size: 17px; margin-bottom: 20px; position: relative; padding-bottom: 10px; }
 .footer h4::after { content: ""; position: absolute; left: 0; bottom: 0; width: 34px; height: 3px; background: var(--teal); }
-.f-logo { height: 54px; width: auto; margin-bottom: 18px; }
+.f-logo { height: 70px; width: auto; margin-bottom: 18px; }
 .f-about p { font-size: 14px; margin-bottom: 22px; }
 .socials { display: flex; gap: 10px; }
 .socials a {

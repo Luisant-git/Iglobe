@@ -202,6 +202,15 @@ h1, h2, h3, h4, h5, h6 { color: var(--ink); font-weight: 700; line-height: 1.25;
 .carousel-arrow:hover { background: var(--teal); color: #fff; }
 .carousel-arrow.prev { left: -18px; }
 .carousel-arrow.next { right: -18px; }
+.carousel-dots {
+  display: flex; gap: 8px; justify-content: center; margin-top: 14px;
+}
+.carousel-dot {
+  width: 10px; height: 10px; border-radius: 50%; border: 0;
+  background: #d1d5db; cursor: pointer; transition: all .3s; padding: 0;
+}
+.carousel-dot.active { background: var(--teal); transform: scale(1.2); }
+.carousel-dot:hover { background: var(--teal-dark); }
 .logo-item.net { background: none; }
 .logo-item.net img { max-height: 150px; }
 

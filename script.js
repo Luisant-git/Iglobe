@@ -38,14 +38,74 @@ if (slides.length) {
   if (next) next.onclick = () => setManual(idx + 1);
 }
 
-// ----- Simple carousels (arrows scroll) -----
+// ----- Logo carousels (arrows, dots + auto scroll) -----
 document.querySelectorAll("[data-carousel]").forEach((wrap) => {
   const track = wrap.querySelector(".logo-track");
-  const step = () => (track.querySelector(".logo-item")?.offsetWidth || 300) + 24;
+  const items = Array.from(track.querySelectorAll(".logo-item"));
+  // Clone items if no overflow (so auto-scroll has something to scroll)
+  if (track.scrollWidth <= track.clientWidth) {
+    items.forEach(item => { track.appendChild(item.cloneNode(true)); });
+  }
+  const step = () => (items[0]?.offsetWidth || 300) + 24;
+  const dotsWrap = wrap.querySelector(".carousel-dots");
+  let dots = [];
+  let timer = null;
+
+  if (dotsWrap) {
+    items.forEach((_, i) => {
+      const b = document.createElement("button");
+      b.className = "carousel-dot" + (i === 0 ? " active" : "");
+      b.type = "button";
+      b.setAttribute("aria-label", "Slide " + (i + 1));
+      b.addEventListener("click", () => goTo(i));
+      dotsWrap.appendChild(b);
+    });
+    dots = Array.from(dotsWrap.querySelectorAll(".carousel-dot"));
+  }
+
+  const updateDots = () => {
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    const progress = maxScroll <= 0 ? 0 : track.scrollLeft / maxScroll;
+    const index = Math.min(items.length - 1, Math.round(progress * (items.length - 1)));
+    dots.forEach((d, i) => d.classList.toggle("active", i === index));
+  };
+
+  const goTo = (index) => {
+    const item = items[index];
+    if (!item) return;
+    track.scrollTo({ left: item.offsetLeft - (track.clientWidth - item.offsetWidth) / 2, behavior: "smooth" });
+    resetTimer();
+  };
+
+  const nextSlide = () => {
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    if (track.scrollLeft >= maxScroll - 1) {
+      track.scrollTo({ left: 0, behavior: "smooth" });
+    } else {
+      track.scrollBy({ left: step(), behavior: "smooth" });
+    }
+  };
+
+  const startTimer = () => { stopTimer(); timer = setInterval(nextSlide, 3000); };
+  const stopTimer = () => { if (timer) clearInterval(timer); timer = null; };
+  const resetTimer = () => { stopTimer(); startTimer(); };
+
   const prevB = wrap.querySelector(".carousel-arrow.prev");
   const nextB = wrap.querySelector(".carousel-arrow.next");
-  if (prevB) prevB.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
-  if (nextB) nextB.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
+  if (prevB) prevB.addEventListener("click", () => {
+    track.scrollBy({ left: -step(), behavior: "smooth" });
+    resetTimer();
+  });
+  if (nextB) nextB.addEventListener("click", () => {
+    nextSlide();
+    resetTimer();
+  });
+
+  track.addEventListener("scroll", updateDots);
+  wrap.addEventListener("mouseenter", stopTimer);
+  wrap.addEventListener("mouseleave", startTimer);
+
+  startTimer();
 });
 
 // ----- Animated counters -----

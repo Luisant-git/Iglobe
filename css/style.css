@@ -452,6 +452,58 @@ a.cc-address:hover .cc-value { color: #fff; }
 .tp-form textarea { resize: vertical; }
 .tp-form .btn-teal { text-transform: uppercase; }
 
+/* Plane captcha */
+.captcha {
+  margin: 4px 0 24px; padding: 22px; text-align: left;
+  background: #f7f7f7 !important; border: 1px solid #e5e5e5 !important; border-radius: 16px;
+  transition: border-color .25s ease, background .25s ease;
+}
+.captcha-head { display: flex; align-items: flex-start; gap: 13px; margin-bottom: 16px; }
+.captcha-badge {
+  width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px;
+  display: grid; place-items: center; color: #000; background: #eaf4f6;
+}
+.captcha-badge .ic { width: 22px; height: 22px; }
+.captcha-head strong { display: block; color: #000; font-size: 15px; line-height: 1.4; }
+.captcha-head p { margin: 2px 0 0; color: #000; font-size: 14px; line-height: 1.5; }
+.captcha-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.captcha-tile {
+  aspect-ratio: 1; display: grid; place-items: center;
+  background: #fff; border: 1px solid #e6eef1; border-radius: 12px;
+  color: #000; cursor: pointer;
+  transition: all .25s ease;
+}
+.captcha-icon {
+  width: 28px; height: 28px; display: block;
+}
+.captcha-tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--teal);
+  background: #f7fbfc;
+  box-shadow: 0 8px 16px rgba(60, 133, 153, 0.08);
+}
+.captcha-tile:focus-visible { outline: 3px solid rgba(60,133,153,.35); outline-offset: 2px; }
+.captcha-tile.wrong {
+  border-color: #d9534f; background: #fff5f5; color: #d9534f;
+  animation: captcha-shake .3s ease;
+}
+.captcha-tile.correct {
+  border-color: var(--teal);
+  background: rgba(60, 133, 153, 0.08);
+  box-shadow: 0 0 0 2px rgba(60, 133, 153, 0.14);
+  color: var(--teal);
+}
+.captcha-status { min-height: 20px; margin: 12px 0 0; color: #000; font-size: 13px; }
+.captcha.verified { border-color: rgba(60,133,153,.5) !important; background: #f3f8fa !important; }
+.captcha.verified .captcha-status { color: #000; font-weight: 700; }
+.captcha.captcha-error { border-color: rgba(217,83,79,.4) !important; background: #fff5f5 !important; }
+.captcha.captcha-error .captcha-status { color: #000; font-weight: 600; }
+@keyframes captcha-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
 /* =========================================================
    FOOTER (modern — as approved)
    ========================================================= */
@@ -561,4 +613,7 @@ a.cc-address:hover .cc-value { color: #fff; }
   .why-cards, .process-grid { grid-template-columns: 1fr; }
   .slide-btns .btn { height: 52px; line-height: 52px; padding: 0 26px; font-size: 14px; }
   .topbar { font-size: 13px; padding: 12px 50px; }
+  .captcha { padding: 16px; }
+  .captcha-grid { grid-template-columns: repeat(3, 1fr); }
+  .captcha-icon { width: 26px; height: 26px; }
 }

@@ -79,9 +79,59 @@ if (toTop) {
   toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 }
 
+// ----- Plane captcha -----
+document.querySelectorAll("[data-plane-captcha]").forEach((captcha) => {
+  const grid = captcha.querySelector(".captcha-grid");
+  const status = captcha.querySelector(".captcha-status");
+  const hidden = captcha.querySelector('input[name="humanVerified"]');
+  const tiles = Array.from(captcha.querySelectorAll(".captcha-tile"));
+
+  // Randomize the tile order on each load.
+  tiles.sort(() => Math.random() - 0.5).forEach((tile) => grid.appendChild(tile));
+
+  const reset = () => {
+    captcha.classList.remove("verified", "captcha-error");
+    tiles.forEach((tile) => tile.classList.remove("correct", "wrong"));
+    status.textContent = "";
+    if (hidden) hidden.value = "";
+  };
+
+  tiles.forEach((tile) => {
+    tile.addEventListener("click", () => {
+      if (captcha.classList.contains("verified")) return;
+      captcha.classList.remove("captcha-error");
+      tiles.forEach((t) => t.classList.remove("wrong"));
+
+      if (tile.dataset.answer === "plane") {
+        captcha.classList.add("verified");
+        tile.classList.add("correct");
+        status.textContent = "Verified — thank you! You can submit the form.";
+        if (hidden) hidden.value = "yes";
+      } else {
+        tile.classList.add("wrong");
+        status.textContent = "That's not the plane. Please try again.";
+        setTimeout(() => tile.classList.remove("wrong"), 1200);
+      }
+    });
+  });
+
+  captcha.closest("form")?.addEventListener("reset", reset);
+});
+
 // ----- Contact form (demo handler) -----
 function submitForm(e) {
   e.preventDefault();
+
+  const captcha = e.target.querySelector("[data-plane-captcha]");
+  if (captcha && !captcha.classList.contains("verified")) {
+    captcha.classList.add("captcha-error");
+    const captchaStatus = captcha.querySelector(".captcha-status");
+    if (captchaStatus) captchaStatus.textContent = "Please select the plane to continue.";
+    captcha.scrollIntoView({ behavior: "smooth", block: "center" });
+    captcha.querySelector(".captcha-tile")?.focus({ preventScroll: true });
+    return false;
+  }
+
   const btn = e.target.querySelector("button[type=submit]");
   const name = e.target.querySelector("#firstName")?.value.trim();
   setTimeout(() => {

@@ -178,26 +178,30 @@ document.querySelectorAll("[data-plane-captcha]").forEach((captcha) => {
   captcha.closest("form")?.addEventListener("reset", reset);
 });
 
-// ----- Contact form (demo handler) -----
-function submitForm(e) {
-  e.preventDefault();
+// ----- Booking form handling -----
+const bookingForm = document.getElementById("bookingForm");
+if (bookingForm) {
+  bookingForm.addEventListener("submit", function(e) {
+    const captcha = bookingForm.querySelector("[data-plane-captcha]");
+    if (captcha && !captcha.classList.contains("verified")) {
+      e.preventDefault();
+      captcha.classList.add("captcha-error");
+      const captchaStatus = captcha.querySelector(".captcha-status");
+      if (captchaStatus) captchaStatus.textContent = "Please select the plane to continue.";
+      captcha.scrollIntoView({ behavior: "smooth", block: "center" });
+      captcha.querySelector(".captcha-tile")?.focus({ preventScroll: true });
+      return false;
+    }
+  });
+}
 
-  const captcha = e.target.querySelector("[data-plane-captcha]");
-  if (captcha && !captcha.classList.contains("verified")) {
-    captcha.classList.add("captcha-error");
-    const captchaStatus = captcha.querySelector(".captcha-status");
-    if (captchaStatus) captchaStatus.textContent = "Please select the plane to continue.";
-    captcha.scrollIntoView({ behavior: "smooth", block: "center" });
-    captcha.querySelector(".captcha-tile")?.focus({ preventScroll: true });
-    return false;
-  }
-
-  const btn = e.target.querySelector("button[type=submit]");
-  const name = e.target.querySelector("#firstName")?.value.trim();
-  setTimeout(() => {
-    btn.innerHTML = "✅ Thank You" + (name ? " " + name + "" : "") + "!";
-    btn.style.background = "#2e9e5b";
-    setTimeout(() => { btn.innerHTML = "Submit"; btn.style.background = ""; e.target.reset(); }, 3200);
-  }, 600);
-  return false;
+// Check for form submission status
+const urlParams = new URLSearchParams(window.location.search);
+const formMessage = document.getElementById("formMessage");
+if (formMessage && urlParams.get('status') === 'success') {
+  formMessage.innerHTML = '<div style="padding:20px;background:#d4edda;color:#155724;border-radius:10px;">✅ Booking request sent successfully! We will contact you soon.</div>';
+  setTimeout(() => { formMessage.innerHTML = ''; }, 8000);
+} else if (formMessage && urlParams.get('status') === 'error') {
+  formMessage.innerHTML = '<div style="padding:20px;background:#f8d7da;color:#721c24;border-radius:10px;">❌ Failed to send request. Please try again.</div>';
+  setTimeout(() => { formMessage.innerHTML = ''; }, 8000);
 }

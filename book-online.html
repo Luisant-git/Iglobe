@@ -49,20 +49,20 @@
         <span class="sec-sub">fILL UP YOUR CONTACT DETAILS</span>
         <h2 class="sec-title">BOOK ONLINE</h2>
       </div>
-      <form class="tp-form reveal" action="send-email.php" method="POST">
+      <form class="tp-form reveal" action="send-email.php" method="POST" id="bookingForm">
         <label for="firstName">Name</label>
         <div class="form-row2">
           <input type="text" id="firstName" name="firstName" placeholder="First" required />
-          <input type="text" name="lastName" placeholder="Last" required />
+          <input type="text" id="lastName" name="lastName" placeholder="Last" required />
         </div>
         <label for="phone">Phone No</label>
-        <input type="tel" id="phone" placeholder="Phone No" required />
+        <input type="tel" id="phone" name="phone" placeholder="Phone No" required />
         <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Email" required />
+        <input type="email" id="email" name="email" placeholder="Email" required />
         <label for="city">City</label>
-        <input type="text" id="city" placeholder="City" required />
+        <input type="text" id="city" name="city" placeholder="City" required />
         <label for="address">Contact Address</label>
-        <textarea id="address" rows="4" placeholder="Contact Address" required></textarea>
+        <textarea id="address" name="address" rows="4" placeholder="Contact Address" required></textarea>
 <div class="captcha" data-plane-captcha>
         
           <div class="captcha-head">
@@ -125,6 +125,7 @@
         <button type="submit" class="btn btn-teal">Submit</button>
         <p style="text-align:center;font-size:14px;color:#777;margin-top:16px">🎉 Booking online gets you a <b style="color:#3c8599">25% discount</b> — Limited Time Offer!</p>
       </form>
+      <div id="formMessage" style="max-width:760px;margin:20px auto;text-align:center;font-size:16px;"></div>
     </div>
   </section>
 

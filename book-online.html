@@ -49,11 +49,11 @@
         <span class="sec-sub">fILL UP YOUR CONTACT DETAILS</span>
         <h2 class="sec-title">BOOK ONLINE</h2>
       </div>
-      <form class="tp-form reveal" onsubmit="return submitForm(event)">
+      <form class="tp-form reveal" action="send-email.php" method="POST">
         <label for="firstName">Name</label>
         <div class="form-row2">
-          <input type="text" id="firstName" placeholder="First" required />
-          <input type="text" placeholder="Last" required />
+          <input type="text" id="firstName" name="firstName" placeholder="First" required />
+          <input type="text" name="lastName" placeholder="Last" required />
         </div>
         <label for="phone">Phone No</label>
         <input type="tel" id="phone" placeholder="Phone No" required />

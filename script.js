@@ -12,33 +12,45 @@ if (topbarClose) topbarClose.addEventListener("click", () => document.getElement
 const hamburger = document.getElementById("hamburger");
 const nav = document.getElementById("nav");
 const navClose = document.getElementById("navClose");
-if (hamburger && nav) {
+const navOverlay = document.getElementById("navOverlay");
+
+function openNav() {
+  if (!nav) return;
+  nav.classList.add("open");
+  if (hamburger) hamburger.classList.add("active");
+  if (navOverlay) navOverlay.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+function closeNav() {
+  if (!nav) return;
+  nav.classList.remove("open");
+  if (hamburger) hamburger.classList.remove("active");
+  if (navOverlay) navOverlay.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+if (hamburger) {
   hamburger.addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const isOpen = nav.classList.contains("open");
-    if (isOpen) {
-      nav.classList.remove("open");
-      hamburger.classList.remove("active");
-      document.body.style.overflow = "";
-    } else {
-      nav.classList.add("open");
-      hamburger.classList.add("active");
-      document.body.style.overflow = "hidden";
-    }
+    nav.classList.contains("open") ? closeNav() : openNav();
   });
 }
-document.querySelectorAll(".nav-link").forEach((l) => {
-  l.addEventListener("click", () => {
-    if (nav) nav.classList.remove("open");
-    if (hamburger) hamburger.classList.remove("active");
-    document.body.style.overflow = "";
+if (navClose) {
+  navClose.addEventListener("click", (e) => {
+    e.preventDefault();
+    closeNav();
   });
+}
+if (navOverlay) {
+  navOverlay.addEventListener("click", () => closeNav());
+}
+document.querySelectorAll(".nav-link").forEach((l) => {
+  l.addEventListener("click", () => closeNav());
 });
 document.addEventListener("click", (e) => {
   if (nav && hamburger && nav.classList.contains("open") && !nav.contains(e.target) && !hamburger.contains(e.target)) {
-    nav.classList.remove("open");
-    document.body.style.overflow = "";
+    closeNav();
   }
 });
 

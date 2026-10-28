@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=3" />
+  <link rel="stylesheet" href="css/style.css?v=7" />
 </head>
 <body>
 
@@ -22,12 +22,18 @@
     <div class="container header-inner">
       <a href="index.html" class="brand"><img src="images/logo.png" alt="I Globe Services" /></a>
       <nav class="nav" id="nav">
+        <div class="nav-header">
+          <a href="index.html" class="brand"><img src="images/logo.png" alt="I Globe Services" /></a>
+          <button class="nav-close" id="navClose" aria-label="Close"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="2" x2="14" y2="14"/><line x1="14" y1="2" x2="2" y2="14"/></svg></button>
+        </div>
         <a href="index.html" class="nav-link">Home</a>
         <a href="about.html" class="nav-link active">About Us</a>
         <a href="services.html" class="nav-link">Services</a>
         <a href="clients.html" class="nav-link">Our Client</a>
         <a href="getintouch.html" class="nav-link">Get in Touch</a>
+        <a href="book-online.html" class="nav-book">Book Online</a>
       </nav>
+      <div class="nav-overlay" id="navOverlay"></div>
       <div class="header-right">
         <a href="book-online.html" class="btn btn-book">Book online</a>
         <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -36,7 +42,7 @@
   </header>
 
   <!-- ===== BREADCRUMB ===== -->
-  <section class="page-banner" style="background-image:url(images/hero-1.jpg)">
+  <section class="page-banner" style="background-image:url(images/1-modified.png)">
     <div class="container">
       <p class="crumb"><a href="index.html">I Globe Services</a> &nbsp;›&nbsp; About</p>
       <h1>About</h1>

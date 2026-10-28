@@ -112,10 +112,14 @@ h1, h2, h3, h4, h5, h6 { color: var(--ink); font-weight: 700; line-height: 1.25;
   display: none; flex-direction: column; gap: 5px;
   background: none; border: 0; cursor: pointer;
   padding: 10px; width: 44px; height: 44px;
-  display: grid; place-items: center;
+  place-items: center;
   border-radius: 12px;
   transition: background .2s ease;
 }
+.nav-header { display: none; }
+.nav-close { display: none; }
+.nav-overlay { display: none; }
+.nav-book { display: none; }
 .hamburger:hover { background: rgba(60,133,153,.08); }
 .hamburger span {
   width: 22px; height: 2.5px; background: var(--ink);
@@ -312,14 +316,14 @@ h1, h2, h3, h4, h5, h6 { color: var(--ink); font-weight: 700; line-height: 1.25;
    ========================================================= */
 .page-banner {
   position: relative; background-position: center; background-size: cover;
-  padding: 150px 0 120px; text-align: center; color: #fff;
+  padding: 180px 0 140px; text-align: center; color: #fff;
 }
-.page-banner::before { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.35); }
+.page-banner::before { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)); }
 .page-banner .container { position: relative; z-index: 2; }
 .page-banner .crumb { color: #fff; font-weight: 500; font-size: 16px; }
-.page-banner .crumb a { color: #fff; opacity: .75; }
+.page-banner .crumb a { color: #fff; opacity: .9; }
 .page-banner .crumb a:hover { opacity: 1; }
-.page-banner h1 { color: #fff; font-size: clamp(40px, 5.6vw, 64px); letter-spacing: -1px; margin-top: 8px; }
+.page-banner h1 { color: #fff; font-size: clamp(42px, 5.8vw, 68px); letter-spacing: -1px; margin-top: 10px; }
 
 /* =========================================================
    INNER PAGE PIECES
@@ -996,7 +1000,8 @@ h1, h2, h3, h4, h5, h6 { color: var(--ink); font-weight: 700; line-height: 1.25;
   .slide-big-text { display: none; }
 }
 @media (max-width: 768px) {
-  .hamburger { display: flex; z-index: 10001; }
+  .hamburger { display: grid; place-items: center; z-index: 10001; }
+  .hamburger.active { display: none; }
   .header-right .btn-book { display: none; }
   .header-inner { justify-content: space-between; }
   .nav {
@@ -1007,21 +1012,36 @@ h1, h2, h3, h4, h5, h6 { color: var(--ink); font-weight: 700; line-height: 1.25;
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); margin: 0; z-index: 10000; overflow-y: auto;
   }
   .nav.open { right: 0; }
+  .nav-overlay {
+    display: none; position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(2px);
+    transition: opacity 0.35s ease; opacity: 0;
+  }
+  .nav-overlay.active { display: block; opacity: 1; }
   .nav-header {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 28px; border-bottom: 1px solid rgba(60, 133, 153, 0.15);
-    margin-bottom: 16px; background: #fff;
+    padding: 18px 24px; border-bottom: 1px solid rgba(60, 133, 153, 0.15);
+    margin-bottom: 8px; background: #fff; position: sticky; top: 0; z-index: 2;
   }
-  .nav-header img { height: 58px; }
+  .nav-header .brand img { height: 50px; }
   .nav-close {
-    background: linear-gradient(135deg, rgba(60, 133, 153, 0.12), rgba(60, 133, 153, 0.08));
-    border: none; font-size: 32px; color: var(--teal-dark);
-    cursor: pointer; line-height: 1; padding: 8px 16px; border-radius: 12px;
-    transition: all 0.3s ease;
+    display: flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px; min-width: 38px; border-radius: 50%;
+    background: #f0f5f7;
+    border: 1.5px solid #dce8ec;
+    font-size: 0; color: var(--teal-dark);
+    cursor: pointer; line-height: 1;
+    padding: 0; flex-shrink: 0;
+    transition: all 0.25s ease;
+  }
+  .nav-close svg {
+    width: 16px; height: 16px; display: block;
   }
   .nav-close:hover {
     background: var(--teal); color: #fff;
-    transform: rotate(90deg);
+    border-color: var(--teal);
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(60, 133, 153, 0.3);
   }
   .nav-link {
     padding: 18px 28px; font-size: 17px; border: none; width: 100%; font-weight: 600;
@@ -1042,6 +1062,7 @@ h1, h2, h3, h4, h5, h6 { color: var(--ink); font-weight: 700; line-height: 1.25;
     border-radius: 0 4px 4px 0;
   }
   .nav-book {
+    display: block;
     margin: 24px 28px 0; padding: 16px 28px; background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
     color: #fff; text-align: center; border-radius: 14px; width: calc(100% - 56px);
     font-size: 17px; font-weight: 700; box-shadow: 0 12px 30px rgba(60, 133, 153, 0.35);

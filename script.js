@@ -11,8 +11,36 @@ if (topbarClose) topbarClose.addEventListener("click", () => document.getElement
 // Mobile menu
 const hamburger = document.getElementById("hamburger");
 const nav = document.getElementById("nav");
-hamburger.addEventListener("click", () => nav.classList.toggle("open"));
-document.querySelectorAll(".nav-link").forEach((l) => l.addEventListener("click", () => nav.classList.remove("open")));
+const navClose = document.getElementById("navClose");
+if (hamburger && nav) {
+  hamburger.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const isOpen = nav.classList.contains("open");
+    if (isOpen) {
+      nav.classList.remove("open");
+      hamburger.classList.remove("active");
+      document.body.style.overflow = "";
+    } else {
+      nav.classList.add("open");
+      hamburger.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+  });
+}
+document.querySelectorAll(".nav-link").forEach((l) => {
+  l.addEventListener("click", () => {
+    if (nav) nav.classList.remove("open");
+    if (hamburger) hamburger.classList.remove("active");
+    document.body.style.overflow = "";
+  });
+});
+document.addEventListener("click", (e) => {
+  if (nav && hamburger && nav.classList.contains("open") && !nav.contains(e.target) && !hamburger.contains(e.target)) {
+    nav.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+});
 
 // Reveal on scroll
 const io = new IntersectionObserver(

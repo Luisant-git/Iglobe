@@ -108,8 +108,23 @@ h1, h2, h3, h4, h5, h6 { color: var(--ink); font-weight: 700; line-height: 1.25;
 .btn-book:hover { background: var(--dark); }
 .header-phone { display: none; }
 
-.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: 0; cursor: pointer; padding: 8px; }
-.hamburger span { width: 24px; height: 2.5px; background: var(--ink); transition: .3s; }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: 0; cursor: pointer;
+  padding: 10px; width: 44px; height: 44px;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  transition: background .2s ease;
+}
+.hamburger:hover { background: rgba(60,133,153,.08); }
+.hamburger span {
+  width: 22px; height: 2.5px; background: var(--ink);
+  border-radius: 2px; transition: all .35s cubic-bezier(0.4,0,0.2,1);
+  transform-origin: center; display: block;
+}
+.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* =========================================================
    HERO SLIDER (exact original style)
@@ -981,16 +996,62 @@ h1, h2, h3, h4, h5, h6 { color: var(--ink); font-weight: 700; line-height: 1.25;
   .slide-big-text { display: none; }
 }
 @media (max-width: 768px) {
-  .hamburger { display: flex; }
+  .hamburger { display: flex; z-index: 10001; }
   .header-right .btn-book { display: none; }
   .header-inner { justify-content: space-between; }
   .nav {
-    position: fixed; top: 86px; right: -100%; width: min(320px, 85%);
-    height: calc(100vh - 86px); background: #fff; flex-direction: column;
-    align-items: flex-start; padding: 40px 30px; gap: 20px;
-    box-shadow: 0 20px 50px rgba(0,0,0,.15); transition: right .35s; margin: 0;
+    position: fixed; top: 0; right: -100%; width: min(320px, 88%);
+    height: 100dvh; background: linear-gradient(180deg, #ffffff 0%, #f8fbfc 100%);
+    flex-direction: column; align-items: stretch; justify-content: flex-start;
+    padding: 0 0 40px; gap: 0; box-shadow: -25px 0 70px rgba(0, 30, 40, 0.25);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); margin: 0; z-index: 10000; overflow-y: auto;
   }
   .nav.open { right: 0; }
+  .nav-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 28px; border-bottom: 1px solid rgba(60, 133, 153, 0.15);
+    margin-bottom: 16px; background: #fff;
+  }
+  .nav-header img { height: 58px; }
+  .nav-close {
+    background: linear-gradient(135deg, rgba(60, 133, 153, 0.12), rgba(60, 133, 153, 0.08));
+    border: none; font-size: 32px; color: var(--teal-dark);
+    cursor: pointer; line-height: 1; padding: 8px 16px; border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+  .nav-close:hover {
+    background: var(--teal); color: #fff;
+    transform: rotate(90deg);
+  }
+  .nav-link {
+    padding: 18px 28px; font-size: 17px; border: none; width: 100%; font-weight: 600;
+    position: relative;
+  }
+  .nav-link::after { display: none; }
+  .nav-link:hover {
+    background: linear-gradient(90deg, rgba(60, 133, 153, 0.12) 0%, transparent 100%);
+    color: var(--teal); padding-left: 34px;
+  }
+  .nav-link.active {
+    background: linear-gradient(90deg, rgba(60, 133, 153, 0.16) 0%, transparent 100%);
+    color: var(--teal-dark); font-weight: 700;
+  }
+  .nav-link.active::before {
+    content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 4px; height: 28px; background: linear-gradient(180deg, var(--teal), var(--teal-dark));
+    border-radius: 0 4px 4px 0;
+  }
+  .nav-book {
+    margin: 24px 28px 0; padding: 16px 28px; background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+    color: #fff; text-align: center; border-radius: 14px; width: calc(100% - 56px);
+    font-size: 17px; font-weight: 700; box-shadow: 0 12px 30px rgba(60, 133, 153, 0.35);
+    transition: all 0.3s ease;
+  }
+  .nav-book:hover {
+    background: linear-gradient(135deg, var(--teal-dark) 0%, #1e4f5a 100%);
+    color: #fff; transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(60, 133, 153, 0.45);
+  }
   .section { padding: 70px 0; }
   .partners { padding: 70px 0; }
   .clients-hero-elegant { padding: 80px 0 70px; }

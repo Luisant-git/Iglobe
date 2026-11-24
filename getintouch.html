@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=7" />
+  <link rel="stylesheet" href="css/style.css?v=8" />
 </head>
 <body>
 
@@ -106,6 +106,87 @@
     </div>
   </section>
 
+  <!-- ===== CONTACT FORM ===== -->
+  <section class="section contact-form-section">
+    <div class="container">
+      <div class="sec-head reveal">
+        <span class="sec-sub">Send Us a Message</span>
+        <h2 class="sec-title">We'd Love to Hear From You</h2>
+        <p class="sec-desc">Tell us what you need and our team will get back to you soon.</p>
+      </div>
+      <form class="tp-form reveal" id="contactForm" novalidate>
+        <input type="hidden" name="formType" value="contact" />
+
+        <label for="contactName">Your Name</label>
+        <input type="text" id="contactName" name="name" placeholder="Your Name" required />
+
+        <label for="contactEmail">Email</label>
+        <div class="form-row2">
+          <input type="email" id="contactEmail" name="email" placeholder="Email" required />
+          <input type="tel" id="contactPhone" name="phone" placeholder="Phone No" required />
+        </div>
+
+        <label for="contactMessage">Message</label>
+        <textarea id="contactMessage" name="message" rows="5" placeholder="How can we help you?" required></textarea>
+
+        <div class="captcha" data-plane-captcha>
+          <div class="captcha-head">
+            <span class="captcha-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="ic"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3zm-1.5 13.6-3-3L8.8 11l1.7 1.7 4.2-4.2 1.3 1.3z"/></svg>
+            </span>
+            <div>
+              <strong>Security Check</strong>
+              <p>Please prove you are human by selecting the plane.</p>
+            </div>
+          </div>
+          <div class="captcha-grid" role="group" aria-label="Select the plane">
+            <button type="button" class="captcha-tile" data-answer="plane" aria-label="Plane">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="captcha-icon">
+                <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>
+              </svg>
+            </button>
+            <button type="button" class="captcha-tile" data-answer="other" aria-label="Car">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="captcha-icon">
+                <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/>
+                <circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/>
+              </svg>
+            </button>
+            <button type="button" class="captcha-tile" data-answer="other" aria-label="Bicycle">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="captcha-icon">
+                <circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/>
+                <path d="M12 17.5V14l-3-3 4-3 2 3h2"/>
+              </svg>
+            </button>
+            <button type="button" class="captcha-tile" data-answer="other" aria-label="Tree">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="captcha-icon">
+                <path d="M12 10v12"/><path d="M9 21h6"/>
+                <path d="M17 6c0-2.8-2.2-5-5-5S7 3.2 7 6c0 2.1 1.3 3.9 3.1 4.7-.1.4-.1.8-.1 1.3h3.8c0-.5 0-.9-.1-1.3C15.7 9.9 17 8.1 17 6Z"/>
+              </svg>
+            </button>
+            <button type="button" class="captcha-tile" data-answer="other" aria-label="Ship">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="captcha-icon">
+                <path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2"/>
+                <path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.81 7.76"/>
+                <path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"/><path d="M12 10v4"/>
+              </svg>
+            </button>
+            <button type="button" class="captcha-tile" data-answer="other" aria-label="House">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="captcha-icon">
+                <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/>
+                <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              </svg>
+            </button>
+          </div>
+          <p class="captcha-status" role="status" aria-live="polite"></p>
+          <input type="hidden" name="humanVerified" value="" />
+        </div>
+
+        <button type="submit" class="btn btn-teal" id="contactSubmit">Send Message</button>
+        <p id="contactFormError" class="form-error" role="alert" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
   <!-- ===== LOCATION MAP ===== -->
   <section class="map-section">
     <div class="container">
@@ -115,13 +196,17 @@
       </div>
       <div class="map-wrap reveal">
         <iframe
-          src="https://maps.google.com/maps?ll=11.129226,77.326519&amp;z=16&amp;t=m&amp;hl=en-GB&amp;gl=US&amp;mapclient=embed&amp;q=I%20GLOBE%20SERVICES%2013%2F5%2CKaviya%20Complex%2C1st%20Street%20Kumar%20Nagar%20East%20Tirupur-641%20603"
+          src="https://www.google.com/maps?q=I%20GLOBE%20SERVICES%2C%2013%2F5%20Kaviya%20Complex%2C%20Kumar%20Nagar%20East%2C%20Tirupur%20641603&amp;z=16&amp;output=embed"
           title="I Globe Services location on Google Maps"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
           allowfullscreen>
         </iframe>
       </div>
+      <p class="map-fallback">
+        Can't see the map?
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=11.129226%2C77.326519" target="_blank" rel="noopener">View it on Google Maps</a>
+      </p>
     </div>
   </section>
 
@@ -187,6 +272,19 @@
     <svg viewBox="0 0 24 24" class="ic"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.2 14.1c-.2.6-1.3 1.2-1.8 1.2a7.4 7.4 0 0 1-3.4-1.2 12.6 12.6 0 0 1-3.9-4.4 5.2 5.2 0 0 1-1-2.8A2.9 2.9 0 0 1 8 6.8c.2-.1.5-.1.7-.1h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2 0 .4-.1.6l-.6.7a.5.5 0 0 0 0 .6 10.3 10.3 0 0 0 4.6 4 .5.5 0 0 0 .7 0l.8-1c.2-.2.4-.2.6-.1l2.1 1c.3.1.5.3.5.4z"/></svg>
   </a>
 
-  <script src="script.js?v=2"></script>
+  <!-- ===== THANK YOU POPUP ===== -->
+  <div class="modal-overlay" id="thankYouModal" role="dialog" aria-modal="true" aria-labelledby="thankYouTitle" hidden>
+    <div class="modal-card">
+      <button type="button" class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+      <div class="modal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <h3 id="thankYouTitle">Thank You for Contacting Us!</h3>
+      <p>We've received your message. Our team will get back to you shortly.</p>
+      <button type="button" class="btn btn-teal" id="modalOk">Close</button>
+    </div>
+  </div>
+
+  <script src="script.js?v=3"></script>
 </body>
 </html>

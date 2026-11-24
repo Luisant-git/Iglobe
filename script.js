@@ -218,19 +218,108 @@ document.querySelectorAll("[data-plane-captcha]").forEach((captcha) => {
   captcha.closest("form")?.addEventListener("reset", reset);
 });
 
+// ----- Shared captcha validation for forms -----
+function captchaIsValid(form) {
+  const captcha = form.querySelector("[data-plane-captcha]");
+  if (!captcha || captcha.classList.contains("verified")) return true;
+
+  captcha.classList.add("captcha-error");
+  const status = captcha.querySelector(".captcha-status");
+  if (status) status.textContent = "Please select the plane to continue.";
+  captcha.scrollIntoView({ behavior: "smooth", block: "center" });
+  captcha.querySelector(".captcha-tile")?.focus({ preventScroll: true });
+  return false;
+}
+
 // ----- Booking form handling -----
 const bookingForm = document.getElementById("bookingForm");
 if (bookingForm) {
   bookingForm.addEventListener("submit", function(e) {
-    const captcha = bookingForm.querySelector("[data-plane-captcha]");
-    if (captcha && !captcha.classList.contains("verified")) {
-      e.preventDefault();
-      captcha.classList.add("captcha-error");
-      const captchaStatus = captcha.querySelector(".captcha-status");
-      if (captchaStatus) captchaStatus.textContent = "Please select the plane to continue.";
-      captcha.scrollIntoView({ behavior: "smooth", block: "center" });
-      captcha.querySelector(".captcha-tile")?.focus({ preventScroll: true });
-      return false;
+    if (!captchaIsValid(this)) e.preventDefault();
+  });
+}
+
+// ----- Thank-you popup -----
+const thankYouModal = document.getElementById("thankYouModal");
+function openThankYouModal() {
+  if (!thankYouModal) return;
+  thankYouModal.hidden = false;
+  document.body.style.overflow = "hidden";
+  document.getElementById("modalOk")?.focus();
+}
+function closeThankYouModal() {
+  if (!thankYouModal) return;
+  thankYouModal.hidden = true;
+  document.body.style.overflow = "";
+}
+document.getElementById("modalClose")?.addEventListener("click", closeThankYouModal);
+document.getElementById("modalOk")?.addEventListener("click", closeThankYouModal);
+thankYouModal?.addEventListener("click", (e) => {
+  if (e.target === thankYouModal) closeThankYouModal();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && thankYouModal && !thankYouModal.hidden) closeThankYouModal();
+});
+
+// ----- Contact form (Get in Touch) -----
+const contactForm = document.getElementById("contactForm");
+if (contactForm) {
+  contactForm.addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    if (!this.checkValidity()) {
+      this.reportValidity();
+      return;
+    }
+    if (!captchaIsValid(this)) return;
+
+    const submitBtn = document.getElementById("contactSubmit");
+    const errorEl = document.getElementById("contactFormError");
+    if (errorEl) errorEl.textContent = "";
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending...";
+    }
+
+    const showSuccess = () => {
+      this.reset();
+      const captcha = this.querySelector("[data-plane-captcha]");
+      if (captcha) {
+        captcha.classList.remove("verified", "captcha-error", "wrong");
+        captcha.querySelectorAll(".captcha-tile").forEach((t) => t.classList.remove("correct", "wrong"));
+        const hidden = captcha.querySelector('input[name="humanVerified"]');
+        const status = captcha.querySelector(".captcha-status");
+        if (hidden) hidden.value = "";
+        if (status) status.textContent = "";
+      }
+      openThankYouModal();
+    };
+
+    // When opened directly from the file system there is no PHP server,
+    // so just confirm the message visually.
+    if (window.location.protocol === "file:") {
+      showSuccess();
+      return;
+    }
+
+    try {
+      const response = await fetch("send-contact.php", {
+        method: "POST",
+        body: new FormData(this)
+      });
+      const result = await response.json();
+      if (result.success) {
+        showSuccess();
+      } else {
+        if (errorEl) errorEl.textContent = result.message || "Something went wrong. Please try again.";
+      }
+    } catch (err) {
+      if (errorEl) errorEl.textContent = "Unable to send right now. Please try again later.";
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send Message";
+      }
     }
   });
 }

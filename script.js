@@ -268,12 +268,12 @@ if (bookingForm) {
           user_id: BOOKING_EMAILJS_PUBLIC_KEY,
           template_params: {
             title: (data.get("title") || "New Online Booking").toString(),
-            firstName: (data.get("firstName") || "").toString().trim(),
-            lastName: (data.get("lastName") || "").toString().trim(),
+            first_name: (data.get("firstName") || "").toString().trim(),
+            last_name: (data.get("lastName") || "").toString().trim(),
             phone: (data.get("phone") || "").toString().trim(),
             email: (data.get("email") || "").toString().trim(),
             city: (data.get("city") || "").toString().trim(),
-            address: (data.get("address") || "").toString().trim()
+            contact_address: (data.get("address") || "").toString().trim()
           }
         })
       });

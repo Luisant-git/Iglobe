@@ -231,11 +231,83 @@ function captchaIsValid(form) {
   return false;
 }
 
-// ----- Booking form handling -----
+// ----- Booking form (Book Online) — EmailJS -----
+const BOOKING_EMAILJS_SERVICE_ID = "service_1mpbo2n";
+const BOOKING_EMAILJS_TEMPLATE_ID = "template_ynwhcxc";
+const BOOKING_EMAILJS_PUBLIC_KEY = "GhGEY16BYGjW78Fsf";
+
 const bookingForm = document.getElementById("bookingForm");
 if (bookingForm) {
-  bookingForm.addEventListener("submit", function(e) {
-    if (!captchaIsValid(this)) e.preventDefault();
+  bookingForm.addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    if (!this.checkValidity()) {
+      this.reportValidity();
+      return;
+    }
+    if (!captchaIsValid(this)) return;
+
+    const submitBtn = document.getElementById("bookingSubmit");
+    const errorEl = document.getElementById("bookingFormError");
+    const messageEl = document.getElementById("formMessage");
+    if (errorEl) errorEl.textContent = "";
+    if (messageEl) messageEl.innerHTML = "";
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending...";
+    }
+
+    const data = new FormData(this);
+    try {
+      const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          service_id: BOOKING_EMAILJS_SERVICE_ID,
+          template_id: BOOKING_EMAILJS_TEMPLATE_ID,
+          user_id: BOOKING_EMAILJS_PUBLIC_KEY,
+          template_params: {
+            title: (data.get("title") || "New Online Booking").toString(),
+            firstName: (data.get("firstName") || "").toString().trim(),
+            lastName: (data.get("lastName") || "").toString().trim(),
+            phone: (data.get("phone") || "").toString().trim(),
+            email: (data.get("email") || "").toString().trim(),
+            city: (data.get("city") || "").toString().trim(),
+            address: (data.get("address") || "").toString().trim()
+          }
+        })
+      });
+      if (!response.ok) {
+        const detail = await response.text();
+        throw new Error(detail || response.statusText);
+      }
+
+      this.reset();
+      const captcha = this.querySelector("[data-plane-captcha]");
+      if (captcha) {
+        captcha.classList.remove("verified", "captcha-error", "wrong");
+        captcha.querySelectorAll(".captcha-tile").forEach((t) => t.classList.remove("correct", "wrong"));
+        const hidden = captcha.querySelector('input[name="humanVerified"]');
+        const status = captcha.querySelector(".captcha-status");
+        if (hidden) hidden.value = "";
+        if (status) status.textContent = "";
+      }
+      if (messageEl) {
+        messageEl.innerHTML = '<div style="padding:20px;background:#d4edda;color:#155724;border-radius:10px;">✅ Booking request sent successfully! We will contact you soon.</div>';
+        setTimeout(() => { messageEl.innerHTML = ""; }, 8000);
+      }
+    } catch (err) {
+      if (errorEl) {
+        errorEl.textContent = "Unable to send right now. Please try again later.";
+      } else if (messageEl) {
+        messageEl.innerHTML = '<div style="padding:20px;background:#f8d7da;color:#721c24;border-radius:10px;">❌ Failed to send request. Please try again.</div>';
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit";
+      }
+    }
   });
 }
 
@@ -262,9 +334,9 @@ document.addEventListener("keydown", (e) => {
 });
 
 // ----- Contact form (Get in Touch) — EmailJS -----
-const EMAILJS_SERVICE_ID = "service_vbcspqa";
-const EMAILJS_TEMPLATE_ID = "template_udpssuu";
-const EMAILJS_PUBLIC_KEY = "Bpa-gDeNW38dY15vh";
+const EMAILJS_SERVICE_ID = "service_1mpbo2n";
+const EMAILJS_TEMPLATE_ID = "template_2p3y5wq";
+const EMAILJS_PUBLIC_KEY = "GhGEY16BYGjW78Fsf";
 
 const contactForm = document.getElementById("contactForm");
 if (contactForm) {

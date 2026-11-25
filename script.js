@@ -261,7 +261,11 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && thankYouModal && !thankYouModal.hidden) closeThankYouModal();
 });
 
-// ----- Contact form (Get in Touch) -----
+// ----- Contact form (Get in Touch) — EmailJS -----
+const EMAILJS_SERVICE_ID = "service_vbcspqa";
+const EMAILJS_TEMPLATE_ID = "template_udpssuu";
+const EMAILJS_PUBLIC_KEY = "Bpa-gDeNW38dY15vh";
+
 const contactForm = document.getElementById("contactForm");
 if (contactForm) {
   contactForm.addEventListener("submit", async function(e) {
@@ -295,24 +299,29 @@ if (contactForm) {
       openThankYouModal();
     };
 
-    // When opened directly from the file system there is no PHP server,
-    // so just confirm the message visually.
-    if (window.location.protocol === "file:") {
-      showSuccess();
-      return;
-    }
-
+    const data = new FormData(this);
     try {
-      const response = await fetch("send-contact.php", {
+      const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
         method: "POST",
-        body: new FormData(this)
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          service_id: EMAILJS_SERVICE_ID,
+          template_id: EMAILJS_TEMPLATE_ID,
+          user_id: EMAILJS_PUBLIC_KEY,
+          template_params: {
+            name: (data.get("name") || "").toString().trim(),
+            email: (data.get("email") || "").toString().trim(),
+            phone: (data.get("phone") || "").toString().trim(),
+            title: (data.get("title") || "New Website Enquiry").toString(),
+            message: (data.get("message") || "").toString().trim()
+          }
+        })
       });
-      const result = await response.json();
-      if (result.success) {
-        showSuccess();
-      } else {
-        if (errorEl) errorEl.textContent = result.message || "Something went wrong. Please try again.";
+      if (!response.ok) {
+        const detail = await response.text();
+        throw new Error(detail || response.statusText);
       }
+      showSuccess();
     } catch (err) {
       if (errorEl) errorEl.textContent = "Unable to send right now. Please try again later.";
     } finally {

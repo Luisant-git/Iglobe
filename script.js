@@ -292,10 +292,7 @@ if (bookingForm) {
         if (hidden) hidden.value = "";
         if (status) status.textContent = "";
       }
-      if (messageEl) {
-        messageEl.innerHTML = '<div style="padding:20px;background:#d4edda;color:#155724;border-radius:10px;">✅ Booking request sent successfully! We will contact you soon.</div>';
-        setTimeout(() => { messageEl.innerHTML = ""; }, 8000);
-      }
+      openThankYouModal();
     } catch (err) {
       if (errorEl) {
         errorEl.textContent = "Unable to send right now. Please try again later.";

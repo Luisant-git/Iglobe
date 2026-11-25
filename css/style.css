@@ -16,13 +16,14 @@
   --line: #f4f4f4;
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 body {
   font-family: "Space Grotesk", sans-serif;
   color: var(--body-c);
   background: #fff;
   line-height: 1.7;
   overflow-x: hidden;
+  width: 100%;
 }
 img { max-width: 100%; display: block; }
 a { text-decoration: none; color: inherit; }
@@ -1039,14 +1040,16 @@ h1, h2, h3, h4, h5, h6 { color: var(--ink); font-weight: 700; line-height: 1.25;
   .hamburger { display: grid; place-items: center; z-index: 10001; }
   .hamburger.active { display: none; }
   .header-right .btn-book { display: none; }
-  .header-inner { justify-content: space-between; }
+  .header-inner { justify-content: space-between; padding: 0 12px; height: auto; min-height: 64px; }
   .nav {
-    position: fixed; top: 0; right: -100%; width: min(320px, 88%);
+    position: fixed; top: 0; right: -100%; width: min(300px, 85%);
     height: 100dvh; background: linear-gradient(180deg, #ffffff 0%, #f8fbfc 100%);
     flex-direction: column; align-items: stretch; justify-content: flex-start;
     padding: 0 0 40px; gap: 0; box-shadow: -25px 0 70px rgba(0, 30, 40, 0.25);
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); margin: 0; z-index: 10000; overflow-y: auto;
+    max-width: 100%;
   }
+  .slide-title { max-width: 100%; word-wrap: break-word; }
   .nav.open { right: 0; }
   .nav-overlay {
     display: none; position: fixed; inset: 0; z-index: 9999;
